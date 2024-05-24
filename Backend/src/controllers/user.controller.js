@@ -5,14 +5,15 @@ const authUser = asyncHandler(async (req, res) => {
     const userdata = req.body
 
     const existingUser = await User.findOne({ email: userdata?.email })
+    console.log(existingUser)
 
     try {
         if (existingUser) {
-            return res.status(409).json({ message: "Email Is Already In use!" })
+            res.status(200).json({ message: "Successfully Logged In", user: existingUser })
         } else {
             const newUser = new User(userdata)
             await newUser.save()
-            res.status(201).json({ message: "User registered successfully", newUser })
+            res.status(201).json({ message: "User registration successfull!", user: newUser })
         }
     } catch (error) {
         res.status(500)

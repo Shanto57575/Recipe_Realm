@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/rr.png";
-import { FaBars } from "react-icons/fa6";
+import { FaBars, FaCoins } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import {
 	getAuth,
@@ -18,6 +18,7 @@ import {
 } from "../app/Features/userSlice";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { PiCoins } from "react-icons/pi";
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
@@ -25,7 +26,6 @@ const auth = getAuth(app);
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const userData = useSelector((state) => state?.user);
-	console.log("userData :", userData);
 
 	const handleSignIn = async () => {
 		try {
@@ -38,12 +38,23 @@ const Navbar = () => {
 				photo: user?.photoURL,
 			};
 			const data = await axios.post(`/api/user/login`, userInfo);
-			console.log("data from backend", data.newUser);
-			dispatch(authSuccess(userInfo));
-			toast.success(`${user?.displayName} Signed In Successfully`);
+			console.log(data);
+			dispatch(authSuccess(data?.data?.user));
+			setTimeout(() => {
+				toast.success(data?.data?.message);
+			}, 2000);
+			if (data.status === 201) {
+				setTimeout(() => {
+					toast.success(`Congratulations! You got 50 Free coins`, {
+						duration: 4000,
+					});
+				}, 3000);
+			}
 		} catch (error) {
 			dispatch(authFailure(error.message));
-			toast.error(`Sign In Failed`);
+			setTimeout(() => {
+				toast.error(`Sign In Failed`);
+			}, 2000);
 		}
 	};
 
@@ -51,7 +62,7 @@ const Navbar = () => {
 		signOut(auth)
 			.then(() => {
 				dispatch(SignedOut());
-				toast.success(`${user.displayName} Logged Out!`);
+				toast.success(`User Logged Out!`);
 			})
 			.catch((error) => {
 				toast.error(error.message);
@@ -67,10 +78,9 @@ const Navbar = () => {
 				<Link to="/recipes">Recipes</Link>
 			</li>
 			{userData.userInfo ? (
-				<li>
-					<button onClick={handleLogOut}>SignOut</button>
-					<Toaster />
-				</li>
+				<ul className="flex items-center gap-x-2">
+					<li>Add Recipes</li>
+				</ul>
 			) : (
 				<li>
 					<button onClick={handleSignIn}>SignIn</button>
@@ -118,8 +128,18 @@ const Navbar = () => {
 							tabIndex={0}
 							className="dropdown-content z-[1] font-serif menu p-2 shadow bg-base-100 rounded-box w-52"
 						>
-							<li>{userData?.userInfo?.name}</li>
-							<li>{userData?.userInfo?.email}</li>
+							<li className="p-2">{userData?.userInfo?.name}</li>
+							<li className="p-2">{userData?.userInfo?.email}</li>
+							<p className="flex items-center gap-x-1 text-xl">
+								{userData?.userInfo?.coin}
+								<FaCoins color="#FFBF00" />
+							</p>
+							<li className="p-0">
+								<button onClick={handleLogOut} className="p-1">
+									SignOut
+								</button>
+								<Toaster />
+							</li>
 						</ul>
 					</div>
 				)}

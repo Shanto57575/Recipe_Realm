@@ -17,6 +17,7 @@ import {
 	authSuccess,
 } from "../app/Features/userSlice";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
@@ -26,25 +27,24 @@ const Navbar = () => {
 	const userData = useSelector((state) => state?.user);
 	console.log("userData :", userData);
 
-	const handleSignIn = () => {
-		dispatch(authStart());
-		signInWithPopup(auth, provider)
-			.then((result) => {
-				const user = result.user;
-				const userInfo = {
-					name: user?.displayName,
-					email: user?.email,
-					photo: user?.photoURL,
-				};
-				dispatch(authSuccess(userInfo));
-				toast.success(`${user?.displayName} Signed In Successfully`);
-				console.log("token: ", token);
-				console.log("user: ", user);
-			})
-			.catch((error) => {
-				dispatch(authFailure(error.message));
-				toast.error(`Sign In Failed`);
-			});
+	const handleSignIn = async () => {
+		try {
+			dispatch(authStart());
+			const result = await signInWithPopup(auth, provider);
+			const user = result.user;
+			const userInfo = {
+				name: user?.displayName,
+				email: user?.email,
+				photo: user?.photoURL,
+			};
+			const data = await axios.post(`/api/user/login`, userInfo);
+			console.log("data from backend", data.newUser);
+			dispatch(authSuccess(userInfo));
+			toast.success(`${user?.displayName} Signed In Successfully`);
+		} catch (error) {
+			dispatch(authFailure(error.message));
+			toast.error(`Sign In Failed`);
+		}
 	};
 
 	const handleLogOut = () => {
@@ -66,7 +66,7 @@ const Navbar = () => {
 			<li>
 				<Link to="/recipes">Recipes</Link>
 			</li>
-			{userData ? (
+			{userData.userInfo ? (
 				<li>
 					<button onClick={handleLogOut}>SignOut</button>
 					<Toaster />

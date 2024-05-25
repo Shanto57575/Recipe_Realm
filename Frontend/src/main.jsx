@@ -8,7 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<>
-		<div>
+		<div className="font-serif">
 			<Provider store={store}>
 				<PersistGate persistor={persistor}>
 					<App />

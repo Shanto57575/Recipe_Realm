@@ -37,7 +37,7 @@ const Navbar = () => {
 				email: user?.email,
 				photo: user?.photoURL,
 			};
-			const data = await axios.post(`/api/user/login`, userInfo);
+			const data = await axios.post("/api/user/login", userInfo);
 			console.log(data);
 			dispatch(authSuccess(data?.data?.user));
 			setTimeout(() => {
@@ -79,7 +79,9 @@ const Navbar = () => {
 			</li>
 			{userData.userInfo ? (
 				<ul className="flex items-center gap-x-2">
-					<li>Add Recipes</li>
+					<li>
+						<Link to="/add-recipe">Add Recipes</Link>
+					</li>
 				</ul>
 			) : (
 				<li>
@@ -91,7 +93,7 @@ const Navbar = () => {
 	);
 
 	return (
-		<div className="container mx-auto navbar bg-base-100">
+		<div className="container mx-auto navbar md:py-5">
 			<div className="navbar-start">
 				<div className="dropdown">
 					<div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -105,7 +107,7 @@ const Navbar = () => {
 					</ul>
 				</div>
 				<section className="flex items-center">
-					<img className="w-full h-20" src={logo} alt="" />
+					<img className="w-full h-20 hidden md:block" src={logo} alt="" />
 					<span className="font-serif text-orange-400 mt-2">RecipeRealm</span>
 				</section>
 			</div>

@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../assets/rr.png";
 import { FaBars, FaCoins } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
 	getAuth,
 	signInWithPopup,
@@ -18,7 +18,8 @@ import {
 } from "../app/Features/userSlice";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { PiCoins } from "react-icons/pi";
+import { FaRegHeart } from "react-icons/fa";
+import { useState } from "react";
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
@@ -26,6 +27,10 @@ const auth = getAuth(app);
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const userData = useSelector((state) => state?.user);
+	const location = useLocation();
+	const navigate = useNavigate();
+
+	const [addReaction, setAddReaction] = useState(false);
 
 	const handleSignIn = async () => {
 		try {
@@ -38,8 +43,8 @@ const Navbar = () => {
 				photo: user?.photoURL,
 			};
 			const data = await axios.post("/api/user/login", userInfo);
-			console.log(data);
 			dispatch(authSuccess(data?.data?.user));
+			navigate(location?.state?.previousUrl);
 			setTimeout(() => {
 				toast.success(data?.data?.message);
 			}, 2000);
@@ -53,7 +58,7 @@ const Navbar = () => {
 		} catch (error) {
 			dispatch(authFailure(error.message));
 			setTimeout(() => {
-				toast.error(`Sign In Failed`);
+				toast.error(`Sorry, Something went wrong!`);
 			}, 2000);
 		}
 	};
@@ -75,12 +80,15 @@ const Navbar = () => {
 				<Link to="/">Home</Link>
 			</li>
 			<li>
-				<Link to="/recipes">Recipes</Link>
+				<Link to="/purchase-coin">Purchase Coin</Link>
+			</li>
+			<li>
+				<Link to="/all-recipe">All Recipes</Link>
 			</li>
 			{userData.userInfo ? (
 				<ul className="flex items-center gap-x-2">
 					<li>
-						<Link to="/add-recipe">Add Recipes</Link>
+						<Link to="/add-recipe">Add Recipe</Link>
 					</li>
 				</ul>
 			) : (
@@ -93,7 +101,7 @@ const Navbar = () => {
 	);
 
 	return (
-		<div className="container mx-auto navbar md:py-5">
+		<div className="container mx-auto navbar">
 			<div className="navbar-start">
 				<div className="dropdown">
 					<div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -130,6 +138,33 @@ const Navbar = () => {
 							tabIndex={0}
 							className="dropdown-content z-[1] font-serif menu p-2 shadow bg-base-100 rounded-box w-52"
 						>
+							{addReaction ? (
+								<button
+									onClick={() => setAddReaction(!addReaction)}
+									className="reaction-button"
+								>
+									<div
+										className={`inline-block ${
+											addReaction ? "bg-red-500" : ""
+										} p-1 rounded-full`}
+									>
+										<FaRegHeart className="text-white" size={25} />
+									</div>
+								</button>
+							) : (
+								<button
+									onClick={() => setAddReaction(!addReaction)}
+									className="reaction-button"
+								>
+									<div
+										className={`inline-block ${
+											addReaction ? "bg-transparent" : ""
+										} p-1 rounded-full`}
+									>
+										<FaRegHeart className="text-white" size={25} />
+									</div>
+								</button>
+							)}
 							<li className="p-2">{userData?.userInfo?.name}</li>
 							<li className="p-2">{userData?.userInfo?.email}</li>
 							<p className="flex items-center gap-x-1 text-xl">

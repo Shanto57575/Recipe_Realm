@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/user', userRouter)
 app.use('/api/recipe', recipeRouter)
+
 app.use(errorHandler)
 
 app.listen(port, () => {

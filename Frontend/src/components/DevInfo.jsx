@@ -5,7 +5,7 @@ const DevInfo = () => {
 	return (
 		<section
 			id="dev-info"
-			className="dev-info hover:bg-gradient-to-b from-black via-slate-900 text-white py-16 shadow-md shadow-white hover:m-10"
+			className="dev-info hover:bg-gradient-to-b from-black via-slate-900 text-white py-16 hover:shadow-md hover:shadow-white hover:m-10"
 		>
 			<div className="container mx-auto px-4">
 				<div className="text-center mb-8">
@@ -38,7 +38,7 @@ const DevInfo = () => {
 						<div className="mt-5">
 							<a
 								href="mailto:youremail@example.com"
-								className="text-blue-500 hover:underline"
+								className="text-blue-500 hover:text-white"
 							>
 								📫 I am just one Mail away
 							</a>

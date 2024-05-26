@@ -39,15 +39,16 @@ const AddRecipe = () => {
 		formData.image = imageUrl;
 		formData.watchCount = 0;
 		formData.purchased_by = [];
-		console.log(formData);
+
 		try {
 			const response = await axios.post("/api/recipe/add-recipe", formData);
 			console.log(response);
 			toast.success("Recipe added successfully!");
 		} catch (error) {
+			toast.error(error.message);
 			console.log(error);
 		}
-		// reset();
+		reset();
 	};
 
 	return (
@@ -170,15 +171,18 @@ const AddRecipe = () => {
 								>
 									Country
 								</label>
-								<input
+								<select
 									{...register("country", {
 										required: "Country is required",
 									})}
 									className="shadow appearance-none border rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline"
 									id="country"
-									type="text"
-									placeholder="Country"
-								/>
+								>
+									<option value="">Select Country</option>
+									<option value="Bangladesh">Bangladesh</option>
+									<option value="Indian">India</option>
+									<option value="Italian">Italia</option>
+								</select>
 								{errors.country && (
 									<span className="text-rose-600 my-1.5">
 										{errors.country.message}
@@ -200,9 +204,9 @@ const AddRecipe = () => {
 									id="category"
 								>
 									<option value="">Select Category</option>
-									<option value="Deshi">Deshi</option>
-									<option value="Italian">Italian</option>
-									<option value="Chineese">Chineese</option>
+									<option value="Sweet">Sweet</option>
+									<option value="Sour">Sour</option>
+									<option value="Spicy">Spicy</option>
 								</select>
 								{errors.category && (
 									<span className="text-rose-600 my-1.5">

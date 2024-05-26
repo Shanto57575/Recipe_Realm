@@ -4,9 +4,8 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
 	const userData = useSelector((state) => state?.user);
-	console.log(userData);
 
-	return userData.userInfo ? <Outlet /> : <Navigate to="/" replace />;
+	return userData.userInfo ? <Outlet /> : <Navigate to="/" replace={true} />;
 };
 
 export default PrivateRoute;

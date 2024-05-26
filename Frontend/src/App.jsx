@@ -6,6 +6,9 @@ import Footer from "./components/Footer";
 import ErrorPage from "./Pages/ErrorPage";
 import AddRecipe from "./components/AddRecipe";
 import PrivateRoute from "./components/PrivateRoute";
+import AllRecipe from "./Pages/AllRecipe";
+import RecipeDetails from "./components/RecipeDetails";
+import PurchaseCoin from "./Pages/PurchaseCoin";
 
 const App = () => {
 	return (
@@ -13,10 +16,17 @@ const App = () => {
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />}></Route>
+				<Route path="/purchase-coin" element={<PurchaseCoin />}></Route>
 				<Route path="" element={<PrivateRoute />}>
 					<Route path="/add-recipe" element={<AddRecipe />} />
+					<Route
+						path="/all-recipe/:recipeId"
+						element={<RecipeDetails />}
+					></Route>
 				</Route>
 				<Route path="*" element={<ErrorPage />}></Route>
+
+				<Route path="/all-recipe" element={<AllRecipe />}></Route>
 			</Routes>
 			<Footer />
 		</BrowserRouter>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { FiSearch } from "react-icons/fi";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { authSuccess } from "../app/Features/userSlice";
 
 const AllRecipe = () => {
@@ -55,6 +56,16 @@ const AllRecipe = () => {
 		};
 		fetchRecipes();
 	}, []);
+
+	const fetchData = async () => {
+		try {
+			const response = await axios.get("api/recipe/all-recipe");
+			const newRecipes = response.data.recipes;
+			setAllRecipe((prevRecipes) => [...prevRecipes, ...newRecipes]);
+		} catch (error) {
+			console.log(`Error Fetching more recipes : `, error);
+		}
+	};
 
 	const handlePurchaseRecipe = async (recipeId) => {
 		console.log(userData._id);
@@ -162,64 +173,72 @@ const AllRecipe = () => {
 				) : (
 					""
 				)}
-				{filterRecipes(searchRecipes(allRecipe)) ? (
-					filterRecipes(searchRecipes(allRecipe)).map((recipe) => (
-						<div
-							key={recipe?._id}
-							className="card md:card-side mb-6 hover:bg-gradient-to-r from-gray-700 via-gray-950 to-black shadow-md shadow-cyan-700 hover:shadow-white mx-5"
-						>
-							<figure>
-								<img
-									className="w-full md:w-96 h-72"
-									src={recipe?.image}
-									alt="Album"
-								/>
-							</figure>
-							<div className="card-body">
-								<h2 className="card-title">{recipe?.recipeName}</h2>
-								<h3>Purchased By : {recipe?.purchased_by.length}</h3>
-								<h3>creatorEmail : {recipe.email}</h3>
-								<h3>Country : {recipe.country}</h3>
-								<div className="card-actions">
-									{userData ? (
-										<div>
-											{userData?.coin < 10 ? (
-												<>
-													<button
-														onClick={purchaseCoin}
-														className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
-													>
-														View Recipe
-													</button>
-													<Toaster />
-												</>
-											) : (
-												<>
-													<button
-														onClick={() => handlePurchaseRecipe(recipe._id)}
-														className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
-													>
-														View Recipe
-													</button>
-													<Toaster />
-												</>
-											)}
-										</div>
-									) : (
-										<button
-											onClick={() => checkLogin(recipe._id)}
-											className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
-										>
-											View Recipe
-										</button>
-									)}
+				<InfiniteScroll
+					dataLength={allRecipe?.length}
+					next={fetchData}
+					hasMore={true} // Replace with a condition based on your data source
+					loader={<Loader />}
+					endMessage={<p>No more data to load.</p>}
+				>
+					{filterRecipes(searchRecipes(allRecipe)) ? (
+						filterRecipes(searchRecipes(allRecipe)).map((recipe) => (
+							<div
+								key={recipe?._id}
+								className="card md:card-side mb-6 hover:bg-gradient-to-r from-gray-700 via-gray-950 to-black shadow-md shadow-cyan-700 hover:shadow-white mx-5"
+							>
+								<figure>
+									<img
+										className="w-full md:w-96 h-72"
+										src={recipe?.image}
+										alt="Album"
+									/>
+								</figure>
+								<div className="card-body">
+									<h2 className="card-title">{recipe?.recipeName}</h2>
+									<h3>Purchased By : {recipe?.purchased_by.length}</h3>
+									<h3>creatorEmail : {recipe.email}</h3>
+									<h3>Country : {recipe.country}</h3>
+									<div className="card-actions">
+										{userData ? (
+											<div>
+												{userData?.coin < 10 ? (
+													<>
+														<button
+															onClick={purchaseCoin}
+															className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
+														>
+															View Recipe
+														</button>
+														<Toaster />
+													</>
+												) : (
+													<>
+														<button
+															onClick={() => handlePurchaseRecipe(recipe._id)}
+															className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
+														>
+															View Recipe
+														</button>
+														<Toaster />
+													</>
+												)}
+											</div>
+										) : (
+											<button
+												onClick={() => checkLogin(recipe._id)}
+												className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
+											>
+												View Recipe
+											</button>
+										)}
+									</div>
 								</div>
 							</div>
-						</div>
-					))
-				) : (
-					<Loader />
-				)}
+						))
+					) : (
+						<Loader />
+					)}
+				</InfiniteScroll>
 			</section>
 		</div>
 	);

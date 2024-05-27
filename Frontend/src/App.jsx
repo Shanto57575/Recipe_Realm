@@ -21,6 +21,7 @@ const App = () => {
 				<Route path="/purchase-coin" element={<PurchaseCoin />}></Route>
 				<Route path="/payment-success" element={<PaymentSuccess />}></Route>
 				<Route path="/payment-failure" element={<PaymentFailure />}></Route>
+				<Route path="/all-recipe" element={<AllRecipe />}></Route>
 				<Route path="" element={<PrivateRoute />}>
 					<Route path="/add-recipe" element={<AddRecipe />} />
 					<Route
@@ -29,8 +30,6 @@ const App = () => {
 					></Route>
 				</Route>
 				<Route path="*" element={<ErrorPage />}></Route>
-
-				<Route path="/all-recipe" element={<AllRecipe />}></Route>
 			</Routes>
 			<Footer />
 		</BrowserRouter>

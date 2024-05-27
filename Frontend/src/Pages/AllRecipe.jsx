@@ -35,8 +35,8 @@ const AllRecipe = () => {
 	};
 
 	const searchRecipes = (recipes) => {
-		return recipes.filter((recipe) =>
-			recipe.recipeName.toLowerCase().includes(searchQuery?.toLowerCase())
+		return recipes?.filter((recipe) =>
+			recipe?.recipeName?.toLowerCase()?.includes(searchQuery?.toLowerCase())
 		);
 	};
 
@@ -185,7 +185,7 @@ const AllRecipe = () => {
 					loader={<Loader />}
 					endMessage={<p>No more data to load.</p>}
 				>
-					{filterRecipes(searchRecipes(allRecipe)).map((recipe, idx) => (
+					{filterRecipes(searchRecipes(allRecipe))?.map((recipe, idx) => (
 						<div
 							key={idx}
 							className="card md:card-side mb-6 hover:bg-gradient-to-r from-gray-700 via-gray-950 to-black shadow-md shadow-cyan-700 hover:shadow-white mx-5"
@@ -200,8 +200,8 @@ const AllRecipe = () => {
 							<div className="card-body">
 								<h2 className="card-title">{recipe?.recipeName}</h2>
 								<h3>Purchased By : {recipe?.purchased_by.length}</h3>
-								<h3>creatorEmail : {recipe.email}</h3>
-								<h3>Country : {recipe.country}</h3>
+								<h3>creatorEmail : {recipe?.email}</h3>
+								<h3>Country : {recipe?.country}</h3>
 								<div className="card-actions">
 									{userData ? (
 										<div>
@@ -218,7 +218,7 @@ const AllRecipe = () => {
 											) : (
 												<>
 													<button
-														onClick={() => handlePurchaseRecipe(recipe._id)}
+														onClick={() => handlePurchaseRecipe(recipe?._id)}
 														className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
 													>
 														View Recipe

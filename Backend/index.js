@@ -11,6 +11,8 @@ import paymentRouter from './src/routes/payment.routes.js';
 const app = express()
 dotenv.config()
 
+connectDB()
+
 const port = process.env.PORT || 5000
 
 app.use(cors())
@@ -30,5 +32,4 @@ app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`DishCraft Server is running on port ${port}`)
-    connectDB()
 })

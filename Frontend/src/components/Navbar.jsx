@@ -27,7 +27,7 @@ const auth = getAuth(app);
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const userData = useSelector((state) => state?.user);
-	console.log(userData);
+
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -44,6 +44,7 @@ const Navbar = () => {
 				photo: user?.photoURL,
 			};
 			const data = await axios.post("/api/user/login", userInfo);
+			console.log(data);
 			dispatch(authSuccess(data?.data?.user));
 			navigate(location?.state?.previousUrl);
 			setTimeout(() => {
@@ -125,7 +126,7 @@ const Navbar = () => {
 				</ul>
 			</div>
 			<div className="navbar-end">
-				{userData?.userInfo && (
+				{userData?.userInfo?.email && (
 					<div className="dropdown dropdown-end">
 						<div tabIndex={0} className="cursor-pointer">
 							<img

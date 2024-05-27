@@ -1,9 +1,11 @@
 import express from 'express';
-import { authUser, singleUser, updateUser } from '../controllers/user.controller.js';
+import { authUser, logOutUser, singleUser, updateUser } from '../controllers/user.controller.js';
+import { verifyToken } from '../middlewares/authMiddleware.js';
 
 const userRouter = express.Router()
 
-userRouter.route('/:userId').get(singleUser).put(updateUser);
+userRouter.route('/:userId').get(singleUser).put(verifyToken, updateUser);
 userRouter.route('/login').post(authUser)
+userRouter.route('/logOut').post(logOutUser)
 
 export default userRouter

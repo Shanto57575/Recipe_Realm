@@ -9,6 +9,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import AllRecipe from "./Pages/AllRecipe";
 import RecipeDetails from "./components/RecipeDetails";
 import PurchaseCoin from "./Pages/PurchaseCoin";
+import PaymentSuccess from "./Pages/PaymentSuccess";
+import PaymentFailure from "./Pages/PaymentFailure";
 
 const App = () => {
 	return (
@@ -17,6 +19,8 @@ const App = () => {
 			<Routes>
 				<Route path="/" element={<Home />}></Route>
 				<Route path="/purchase-coin" element={<PurchaseCoin />}></Route>
+				<Route path="/payment-success" element={<PaymentSuccess />}></Route>
+				<Route path="/payment-failure" element={<PaymentFailure />}></Route>
 				<Route path="" element={<PrivateRoute />}>
 					<Route path="/add-recipe" element={<AddRecipe />} />
 					<Route

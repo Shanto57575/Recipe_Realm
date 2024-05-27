@@ -22,7 +22,7 @@ const Banner = () => {
 				src="https://media.istockphoto.com/id/1956865885/photo/homemade-raw-pasta-with-olive-oil-tomato-garlic-and-basil.jpg?s=612x612&w=0&k=20&c=-_y6YWFvOwd2J89L0pD6gqBE-cDJjSLVZKGzTalJXzw="
 				alt="Banner"
 			/>
-			<div className="absolute inset-0 flex items-center justify-center text-center mt-72 md:mt-10">
+			<div className="absolute inset-24 flex items-center justify-center text-center mb-48 md:mb-10 md:mt-10">
 				<div className="font-bold tracking-wide text-center">
 					<div className="text-base text-white space-y-5">
 						<p className="font-serif text-base md:text-lg uppercase text-center">

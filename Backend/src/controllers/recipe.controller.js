@@ -38,8 +38,31 @@ const singleRecipe = asyncHandler(async (req, res) => {
     }
 });
 
+const matchedRecipe = asyncHandler(async (req, res) => {
+    const { recipeId } = req.params;
+
+    try {
+        const recipe = await Recipe.findById(recipeId);
+        if (recipe) {
+            const matchedRecipes = await Recipe.find({
+                $or: [
+                    { country: recipe.country },
+                    { category: recipe.category },
+                ]
+            })
+            res.status(200).json({ matchedRecipes })
+        } else {
+            res.status(404).json({ message: "Recipe not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 export {
     add_Recipe,
     getAllRecipe,
-    singleRecipe
+    singleRecipe,
+    matchedRecipe
 }

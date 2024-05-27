@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const RecipeDetails = () => {
 	const { recipeId } = useParams();
 	const [recipe, setRecipe] = useState(null);
+	const [matchedRecipe, setMatchedRecipe] = useState([]);
 
 	useEffect(() => {
 		const fetchRecipes = async () => {
@@ -17,6 +18,20 @@ const RecipeDetails = () => {
 			}
 		};
 		fetchRecipes();
+	}, []);
+
+	useEffect(() => {
+		const allMatchRecipes = async () => {
+			try {
+				const response = await axios.get(
+					`/api/recipe/all-recipe/match/${recipeId}`
+				);
+				setMatchedRecipe(response.data);
+			} catch (error) {
+				toast.error(error.message);
+			}
+		};
+		allMatchRecipes();
 	}, []);
 
 	return (
@@ -38,7 +53,7 @@ const RecipeDetails = () => {
 									alt={recipe.recipeName}
 								/>
 							</figure>
-							<div className="card-body w-1/2">
+							<div className="card-body">
 								<p>Category: {recipe.category}</p>
 								<p>Country: {recipe.country}</p>
 								<p>Details: {recipe.details}</p>
@@ -82,6 +97,30 @@ const RecipeDetails = () => {
 					</section>
 				</div>
 			)}
+
+			<h1 className="text-3xl ml-5 mb-5 mt-5">Suggested Recipes : </h1>
+			<div className="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+				{matchedRecipe?.matchedRecipes?.slice(1, 100).map((item) => (
+					<section className="max-w-5xl mx-auto hover:scale-110 duration-700">
+						<div className="card w-96 bg-base-100 shadow-lg shadow-white">
+							<div className="card-body bg-gradient-to-r from-black via-slate-900 to-gray-800">
+								<h2 className="card-title">{item?.recipeName}</h2>
+								<p>country: {item.country}</p>
+								<p>category: {item.category}</p>
+							</div>
+							<iframe
+								className="w-full shadow-md shadow-white hover:saturate-200"
+								src={`https://www.youtube.com/embed/${item?.ytvideocode}`}
+								title="YouTube video player"
+								frameBorder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								referrerPolicy="strict-origin-when-cross-origin"
+								allowFullScreen
+							></iframe>
+						</div>
+					</section>
+				))}
+			</div>
 		</div>
 	);
 };

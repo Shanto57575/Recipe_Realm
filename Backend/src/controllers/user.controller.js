@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler"
 import User from "../models/user.model.js"
 import Recipe from "../models/recipe.model.js"
+import generateToken from "../utils/generateToke.js"
 
 const authUser = asyncHandler(async (req, res) => {
     const userdata = req.body
@@ -8,6 +9,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     try {
         if (existingUser) {
+            generateToken(res, existingUser._id)
             res.status(200).json({ message: "Successfully Logged In", user: existingUser })
         } else {
             const newUser = new User(userdata)
@@ -46,25 +48,20 @@ const updateUser = asyncHandler(async (req, res) => {
         const isExist = await User.findById(userId);
         const recipeCreator = await User.findOne({ email: recipe?.email });
 
-        console.log("recipe==>", recipe);
-        console.log("isExist==>", isExist);
-        console.log("recipeCreator==>", recipeCreator);
-
         let updatedRecipe, updatedExistingUser, updatedCreator;
 
-        if (recipe && !recipe.purchased_by.includes(email)) {
+        if (recipe) {
             recipe.watchCount += 1;
             recipe.purchased_by.push(email);
             updatedRecipe = await recipe.save();
         }
 
-        if (isExist && !recipe.purchased_by.includes(email)) {
-            isExist.coin = newCoin || isExist.coin;
+        if (isExist) {
+            isExist.coin = newCoin || isExist.coin
             updatedExistingUser = await isExist.save();
-            console.log("updatedExistingUser", updatedExistingUser);
         }
 
-        if (recipeCreator && !recipe.purchased_by.includes(email)) {
+        if (recipeCreator) {
             recipeCreator.coin += 1;
             updatedCreator = await recipeCreator.save();
         }
@@ -83,8 +80,17 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 });
 
+const logOutUser = asyncHandler(async (req, res) => {
+    res.cookie("Access_Token", "", {
+        httpOnly: true,
+        expires: new Date(0)
+    })
+    res.status(200).json({ message: "Logged out successfully!" })
+})
+
 export {
     authUser,
     updateUser,
-    singleUser
+    singleUser,
+    logOutUser
 }

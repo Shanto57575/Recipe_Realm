@@ -63,15 +63,15 @@ const Navbar = () => {
 		}
 	};
 
-	const handleLogOut = () => {
-		signOut(auth)
-			.then(() => {
-				dispatch(SignedOut());
-				toast.success(`User Logged Out!`);
-			})
-			.catch((error) => {
-				toast.error(error.message);
-			});
+	const handleLogOut = async () => {
+		try {
+			await signOut(auth);
+			const data = await axios.post("/api/user/logOut");
+			toast.success(data?.data?.message);
+			dispatch(SignedOut());
+		} catch (error) {
+			toast.error(error.message);
+		}
 	};
 
 	const navItems = (
@@ -93,7 +93,9 @@ const Navbar = () => {
 				</ul>
 			) : (
 				<li>
-					<button onClick={handleSignIn}>SignIn</button>
+					<button disabled={userData?.isLoading} onClick={handleSignIn}>
+						SignIn
+					</button>
 					<Toaster />
 				</li>
 			)}

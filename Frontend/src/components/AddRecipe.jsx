@@ -42,11 +42,9 @@ const AddRecipe = () => {
 
 		try {
 			const response = await axios.post("/api/recipe/add-recipe", formData);
-			console.log(response);
 			toast.success("Recipe added successfully!");
 		} catch (error) {
 			toast.error(error.message);
-			console.log(error);
 		}
 		reset();
 	};

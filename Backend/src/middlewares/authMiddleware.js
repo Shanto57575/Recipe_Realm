@@ -12,12 +12,12 @@ const verifyToken = asyncHandler(async (req, res, next) => {
             next()
         } catch (error) {
             res.status(401).json({ message: "Invalid token" })
-            throw new Error("Invalid token")
+            return; // Add this line to return after sending response
         }
     } else {
         res.status(401).json({ message: "Unauthorized Access, No Token Found" })
-        throw new Error("Unauthorized Access, No Token Found")
+        return; // Add this line to return after sending response
     }
-})
+});
 
 export { verifyToken }

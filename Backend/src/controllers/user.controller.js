@@ -6,7 +6,7 @@ import generateToken from "../utils/generateToke.js"
 const authUser = asyncHandler(async (req, res) => {
     const userdata = req.body
     const existingUser = await User.findOne({ email: userdata?.email })
-
+    console.log(userdata, existingUser)
     try {
         if (existingUser) {
             generateToken(res, existingUser._id)
@@ -72,7 +72,7 @@ const updateUser = asyncHandler(async (req, res) => {
         if (updatedRecipe && updatedExistingUser && updatedCreator) {
             res.status(200).json({ message: "You Spent 10 coins", user: updatedData });
         } else {
-            res.status(404).json({ message: "User Not Found or Recipe Already Purchased!" });
+            res.status(404).json({ message: "Not Found!" });
         }
 
     } catch (error) {

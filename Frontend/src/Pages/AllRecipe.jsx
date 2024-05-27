@@ -173,7 +173,7 @@ const AllRecipe = () => {
 			</div>
 
 			<section className="max-w-5xl mx-auto">
-				{filterRecipes(searchRecipes(allRecipe)).length === 0 ? (
+				{filterRecipes(searchRecipes(allRecipe))?.length === 0 ? (
 					<p className="text-center text-3xl my-20">
 						No recipe found matching the selected filters.
 					</p>
@@ -199,7 +199,7 @@ const AllRecipe = () => {
 							</figure>
 							<div className="card-body">
 								<h2 className="card-title">{recipe?.recipeName}</h2>
-								<h3>Purchased By : {recipe?.purchased_by.length}</h3>
+								<h3>Purchased By : {recipe?.purchased_by?.length}</h3>
 								<h3>creatorEmail : {recipe?.email}</h3>
 								<h3>Country : {recipe?.country}</h3>
 								<div className="card-actions">
@@ -229,7 +229,7 @@ const AllRecipe = () => {
 										</div>
 									) : (
 										<button
-											onClick={() => checkLogin(recipe._id)}
+											onClick={() => checkLogin(recipe?._id)}
 											className="btn my-5 mr-2 hover:bg-black hover:text-white border-0 border-b-4 border-white bg-black font-serif font-extrabold"
 										>
 											View Recipe

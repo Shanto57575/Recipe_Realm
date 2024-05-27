@@ -6,8 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        // target: "https://backend-alpha-lovat.vercel.app",
-        target: "http://localhost:3000",
+        target: "https://backend-alpha-lovat.vercel.app",
         changeOrigin: true
       }
     }

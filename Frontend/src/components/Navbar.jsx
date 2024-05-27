@@ -85,7 +85,7 @@ const Navbar = () => {
 			<li>
 				<Link to="/all-recipe">All Recipes</Link>
 			</li>
-			{userData.userInfo ? (
+			{userData?.userInfo ? (
 				<ul className="flex items-center gap-x-2">
 					<li>
 						<Link to="/add-recipe">Add Recipe</Link>

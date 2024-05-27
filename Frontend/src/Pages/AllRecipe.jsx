@@ -19,11 +19,11 @@ const AllRecipe = () => {
 	const navigate = useNavigate();
 
 	const filterRecipes = (recipes) => {
-		return recipes.filter((recipe) => {
-			if (category && recipe.category !== category) {
+		return recipes?.filter((recipe) => {
+			if (category && recipe?.category !== category) {
 				return false;
 			}
-			if (country && recipe.country !== country) {
+			if (country && recipe?.country !== country) {
 				return false;
 			}
 			return true;
@@ -31,18 +31,18 @@ const AllRecipe = () => {
 	};
 
 	const handleSearch = (e) => {
-		setSearchQuery(e.target.value);
+		setSearchQuery(e?.target?.value);
 	};
 
 	const searchRecipes = (recipes) => {
 		return recipes.filter((recipe) =>
-			recipe.recipeName.toLowerCase().includes(searchQuery.toLowerCase())
+			recipe.recipeName.toLowerCase().includes(searchQuery?.toLowerCase())
 		);
 	};
 
 	useEffect(() => {
 		const fetchRecipes = async () => {
-			const allRecipes = await axios.get("api/recipe/all-recipe");
+			const allRecipes = await axios.get("/api/recipe/all-recipe");
 			setAllRecipe(allRecipes?.data?.recipes);
 		};
 		fetchRecipes();
@@ -50,8 +50,8 @@ const AllRecipe = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get("api/recipe/all-recipe");
-			const newRecipes = response.data.recipes;
+			const response = await axios.get("/api/recipe/all-recipe");
+			const newRecipes = response?.data?.recipes;
 			setAllRecipe((prevRecipes) => [...prevRecipes, ...newRecipes]);
 		} catch (error) {
 			console.log(`Error Fetching more recipes : `, error);
@@ -75,7 +75,7 @@ const AllRecipe = () => {
 				};
 
 				const response = await axios.put(
-					`/api/user/${userData._id}`,
+					`/api/user/${userData?._id}`,
 					updatedData
 				);
 
@@ -88,12 +88,12 @@ const AllRecipe = () => {
 					throw new Error("Insufficient coins");
 				}
 
-				dispatch(authSuccess(response.data.user[1].user));
+				dispatch(authSuccess(response?.data?.user[1]?.user));
 			} else {
 				throw new Error("Insufficient coins");
 			}
 		} catch (error) {
-			console.error(error.message);
+			console.error(error?.message);
 			toast.error("Failed to purchase recipe. Please try again later.");
 		}
 	};

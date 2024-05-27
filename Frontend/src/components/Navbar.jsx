@@ -43,7 +43,10 @@ const Navbar = () => {
 				email: user?.email,
 				photo: user?.photoURL,
 			};
-			const data = await axios.post("/api/user/login", userInfo);
+			const data = await axios.post(
+				"https://backend-alpha-lovat.vercel.app/api/user/login",
+				userInfo
+			);
 			console.log(data);
 			dispatch(authSuccess(data?.data?.user));
 			navigate(location?.state?.previousUrl);
@@ -68,7 +71,9 @@ const Navbar = () => {
 	const handleLogOut = async () => {
 		try {
 			await signOut(auth);
-			const data = await axios.post("/api/user/logOut");
+			const data = await axios.post(
+				"https://backend-alpha-lovat.vercel.app/api/user/logOut"
+			);
 			toast.success(data?.data?.message);
 			dispatch(SignedOut());
 		} catch (error) {

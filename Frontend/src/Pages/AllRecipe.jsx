@@ -42,7 +42,9 @@ const AllRecipe = () => {
 
 	useEffect(() => {
 		const fetchRecipes = async () => {
-			const allRecipes = await axios.get("/api/recipe/all-recipe");
+			const allRecipes = await axios.get(
+				"https://backend-alpha-lovat.vercel.app/api/recipe/all-recipe"
+			);
 			setAllRecipe(allRecipes?.data?.recipes);
 		};
 		fetchRecipes();
@@ -50,7 +52,9 @@ const AllRecipe = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get("/api/recipe/all-recipe");
+			const response = await axios.get(
+				"https://backend-alpha-lovat.vercel.app/api/recipe/all-recipe"
+			);
 			const newRecipes = response?.data?.recipes;
 			setAllRecipe((prevRecipes) => [...prevRecipes, ...newRecipes]);
 		} catch (error) {
@@ -75,7 +79,7 @@ const AllRecipe = () => {
 				};
 
 				const response = await axios.put(
-					`/api/user/${userData?._id}`,
+					`https://backend-alpha-lovat.vercel.app/api/user/${userData?._id}`,
 					updatedData
 				);
 

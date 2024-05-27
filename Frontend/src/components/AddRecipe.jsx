@@ -41,7 +41,10 @@ const AddRecipe = () => {
 		formData.purchased_by = [];
 
 		try {
-			const response = await axios.post("/api/recipe/add-recipe", formData);
+			const response = await axios.post(
+				"https://backend-alpha-lovat.vercel.app/api/recipe/add-recipe",
+				formData
+			);
 			toast.success("Recipe added successfully!");
 		} catch (error) {
 			toast.error(error.message);

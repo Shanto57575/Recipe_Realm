@@ -17,7 +17,10 @@ const PurchaseCoin = () => {
 		const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHED_KEY);
 
 		try {
-			const response = await axios.post("/api/payment/checkout", { money });
+			const response = await axios.post(
+				"https://backend-alpha-lovat.vercel.app/api/payment/checkout",
+				{ money }
+			);
 			const session = await response?.data;
 
 			const result = stripe.redirectToCheckout({

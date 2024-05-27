@@ -11,7 +11,9 @@ const RecipeDetails = () => {
 	useEffect(() => {
 		const fetchRecipes = async () => {
 			try {
-				const response = await axios.get(`/api/recipe/all-recipe/${recipeId}`);
+				const response = await axios.get(
+					`https://backend-alpha-lovat.vercel.app/api/recipe/all-recipe/${recipeId}`
+				);
 				setRecipe(response.data);
 			} catch (error) {
 				toast.error(error.message);
@@ -24,7 +26,7 @@ const RecipeDetails = () => {
 		const allMatchRecipes = async () => {
 			try {
 				const response = await axios.get(
-					`/api/recipe/all-recipe/match/${recipeId}`
+					`https://backend-alpha-lovat.vercel.app/api/recipe/all-recipe/match/${recipeId}`
 				);
 				setMatchedRecipe(response.data);
 			} catch (error) {

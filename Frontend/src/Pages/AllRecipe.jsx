@@ -181,7 +181,7 @@ const AllRecipe = () => {
 				<InfiniteScroll
 					dataLength={allRecipe?.length}
 					next={fetchData}
-					hasMore={true} // Replace with a condition based on your data source
+					hasMore={true}
 					loader={<Loader />}
 					endMessage={<p>No more data to load.</p>}
 				>

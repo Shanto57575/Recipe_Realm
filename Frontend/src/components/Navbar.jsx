@@ -27,6 +27,7 @@ const auth = getAuth(app);
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const userData = useSelector((state) => state?.user);
+	console.log(userData);
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -86,24 +87,21 @@ const Navbar = () => {
 				<Link to="/all-recipe">All Recipes</Link>
 			</li>
 			{userData?.userInfo ? (
-				<ul className="flex items-center gap-x-2">
-					<li>
-						<Link to="/add-recipe">Add Recipe</Link>
-					</li>
-				</ul>
+				<li className="flex items-center gap-x-2">
+					<Link to="/add-recipe">Add Recipe</Link>
+				</li>
 			) : (
 				<li>
 					<button disabled={userData?.isLoading} onClick={handleSignIn}>
 						SignIn
 					</button>
-					<Toaster />
 				</li>
 			)}
 		</div>
 	);
 
 	return (
-		<div className="container mx-auto navbar">
+		<div className="navbar">
 			<div className="navbar-start">
 				<div className="dropdown">
 					<div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -133,7 +131,7 @@ const Navbar = () => {
 							<img
 								className="h-10 w-10 rounded-full"
 								src={userData?.userInfo?.photo}
-								alt=""
+								alt="profileImage"
 							/>
 						</div>
 						<ul

@@ -12,6 +12,7 @@ const authUser = asyncHandler(async (req, res) => {
             generateToken(res, existingUser._id)
             res.status(200).json({ message: "Successfully Logged In", user: existingUser })
         } else {
+            generateToken(res, existingUser._id)
             const newUser = new User(userdata)
             await newUser.save()
             res.status(201).json({ message: "User registration successfull!", user: newUser })

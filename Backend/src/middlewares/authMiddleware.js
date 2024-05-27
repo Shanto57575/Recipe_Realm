@@ -11,11 +11,11 @@ const verifyToken = asyncHandler(async (req, res, next) => {
             req.user = await User.findById(decoded.userId)
             next()
         } catch (error) {
-            res.status(401)
+            res.status(401).json({ message: "Invalid token" })
             throw new Error("Invalid token")
         }
     } else {
-        res.status(401)
+        res.status(401).json({ message: "Unauthorized Access, No Token Found" })
         throw new Error("Unauthorized Access, No Token Found")
     }
 })

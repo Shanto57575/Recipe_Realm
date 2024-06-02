@@ -1,3 +1,5 @@
+![Total view](https://i.ibb.co/B3SrcGx/all.png)
+
 **Recipe Realm**
 
 Recipe Realm is a web application that enables users to share and explore culinary delights. It provides a platform for discovering, sharing, and engaging with recipes from diverse cuisines around the globe.
@@ -19,5 +21,3 @@ Recipe Realm is a web application that enables users to share and explore culina
 - **Security:** `JWT` token-based authorization
 
 ## visit : [recipe realm😋](https://reciperealm75.web.app/)
-
-![Total view](https://i.ibb.co/B3SrcGx/all.png)

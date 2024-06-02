@@ -1,10 +1,10 @@
-import React from "react";
 import { FaCoins } from "react-icons/fa";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+
 const PurchaseCoin = () => {
 	const userData = useSelector((state) => state?.user?.userInfo);
 	const navigate = useNavigate();
@@ -12,6 +12,10 @@ const PurchaseCoin = () => {
 	const makePayment = async (money) => {
 		if (!userData) {
 			toast.error(`Please Login First`);
+			setTimeout(() => {
+				navigate("/");
+			}, 1000);
+			return;
 		}
 
 		const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHED_KEY);
@@ -19,19 +23,21 @@ const PurchaseCoin = () => {
 		try {
 			const response = await axios.post(
 				"https://backend-alpha-lovat.vercel.app/api/payment/checkout",
-				{ money }
+				{
+					userId: userData?._id,
+					money,
+					imgURL:
+						"https://media.istockphoto.com/id/1051617040/photo/double-explosure-with-businesss-charts-of-graph-and-rows-of-coins-for-finance-at-night-city.jpg?s=612x612&w=0&k=20&c=RdphfHfq_ewstUPhqGGZgpv6EdypLrl_bKOpS6IMseY=",
+				}
 			);
 			const session = await response?.data;
+			localStorage.setItem("money", JSON.stringify(money));
 
 			const result = stripe.redirectToCheckout({
 				sessionId: session.id,
 			});
-
-			if (result.error) {
-				console.error("Error redirecting to checkout:", result.error.message);
-			}
 		} catch (error) {
-			console.error("Error making payment:", error);
+			throw new Error(error.message);
 		}
 	};
 
@@ -108,6 +114,7 @@ const PurchaseCoin = () => {
 					</button>
 				</div>
 			</div>
+			<Toaster />
 		</div>
 	);
 };

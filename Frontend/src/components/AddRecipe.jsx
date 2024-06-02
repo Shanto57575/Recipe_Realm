@@ -30,7 +30,7 @@ const AddRecipe = () => {
 				setImageUrl(response?.data?.data?.image?.url);
 			}
 		} catch (error) {
-			console.error("Error uploading image:", error);
+			throw new Error(error.message);
 		}
 	};
 

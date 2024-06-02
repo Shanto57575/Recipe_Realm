@@ -58,7 +58,7 @@ const AllRecipe = () => {
 			const newRecipes = response?.data?.recipes;
 			setAllRecipe((prevRecipes) => [...prevRecipes, ...newRecipes]);
 		} catch (error) {
-			console.log(`Error Fetching more recipes : `, error);
+			throw new Error(error.message);
 		}
 	};
 
@@ -97,7 +97,6 @@ const AllRecipe = () => {
 				throw new Error("Insufficient coins");
 			}
 		} catch (error) {
-			console.error(error?.message);
 			toast.error("Failed to purchase recipe. Please try again later.");
 		}
 	};

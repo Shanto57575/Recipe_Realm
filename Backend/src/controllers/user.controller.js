@@ -6,7 +6,6 @@ import generateToken from "../utils/generateToke.js"
 const authUser = asyncHandler(async (req, res) => {
     const userdata = req.body
     const existingUser = await User.findOne({ email: userdata?.email })
-    console.log(userdata, existingUser)
     try {
         if (existingUser) {
             generateToken(res, existingUser._id)

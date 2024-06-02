@@ -47,7 +47,6 @@ const Navbar = () => {
 				"https://backend-alpha-lovat.vercel.app/api/user/login",
 				userInfo
 			);
-			console.log(data);
 			dispatch(authSuccess(data?.data?.user));
 			navigate(location?.state?.previousUrl);
 			setTimeout(() => {
@@ -115,7 +114,7 @@ const Navbar = () => {
 					</div>
 					<ul
 						tabIndex={0}
-						className="menu menu-sm dropdown-content mt-3 z-[1] shadow bg-black border-b-2 border-r-2 rounded w-60"
+						className="menu menu-sm dropdown-content mt-3 z-[1] shadow bg-black border-b-2 border-r-2 rounded w-96"
 					>
 						{navItems}
 					</ul>
@@ -181,12 +180,12 @@ const Navbar = () => {
 								<button onClick={handleLogOut} className="p-1">
 									SignOut
 								</button>
-								<Toaster />
 							</li>
 						</ul>
 					</div>
 				)}
 			</div>
+			<Toaster />
 		</div>
 	);
 };

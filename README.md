@@ -20,4 +20,4 @@ Recipe Realm is a web application that enables users to share and explore culina
 
 ## visit : [recipe realm😋](https://reciperealm75.web.app/)
 
-![Total view](https://i.ibb.co/bgMMrSq/coins-overlay-overlay.png)
+![Total view](https://i.ibb.co/B3SrcGx/all.png)
